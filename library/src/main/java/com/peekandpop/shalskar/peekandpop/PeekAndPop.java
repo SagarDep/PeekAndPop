@@ -373,6 +373,8 @@ public class PeekAndPop {
      * Reset all views back to their initial values, this done after the onPeek has popped.
      */
     private void resetViews() {
+        if (onGeneralActionListener != null)
+            onGeneralActionListener.onDismiss(peekView, 0);
         peekLayout.setVisibility(View.GONE);
         downX = 0;
         downY = 0;
@@ -391,8 +393,7 @@ public class PeekAndPop {
         }
         peekView.setScaleX(0.85f);
         peekView.setScaleY(0.85f);
-        if (onGeneralActionListener != null)
-            onGeneralActionListener.onDismiss(peekView, 0);
+
     }
 
     private void resetTimers() {
