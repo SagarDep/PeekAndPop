@@ -391,7 +391,8 @@ public class PeekAndPop {
         }
         peekView.setScaleX(0.85f);
         peekView.setScaleY(0.85f);
-        onGeneralActionListener.onDismiss(peekView, 0);
+        if (onGeneralActionListener != null)
+            onGeneralActionListener.onDismiss(peekView, 0);
     }
 
     private void resetTimers() {
