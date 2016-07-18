@@ -199,9 +199,9 @@ public class PeekAndPop {
      * move it appropriately.
      */
     protected void handleTouch(@NonNull View view, @NonNull MotionEvent event, int position) {
-        if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+        if (event.getAction() == MotionEvent.ACTION_UP || (event.getAction() == MotionEvent.ACTION_CANCEL && cancelIfMove)) {
             pop(view, position);
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE && cancelIfMove) {
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
             downX = (int) event.getRawX();
             downY = (int) event.getRawY();
 
@@ -711,7 +711,7 @@ public class PeekAndPop {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 peekShown = false;
                 startTimer(view);
-            } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+            } else if (event.getAction() == MotionEvent.ACTION_UP || (event.getAction() == MotionEvent.ACTION_CANCEL && cancelIfMove)) {
                 cancelPendingTimer(view);
             }
 
