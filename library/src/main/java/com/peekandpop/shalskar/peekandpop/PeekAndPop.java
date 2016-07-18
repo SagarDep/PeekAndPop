@@ -91,6 +91,7 @@ public class PeekAndPop {
         this.onGeneralActionListener = builder.onGeneralActionListener;
         this.onLongHoldListener = builder.onLongHoldListener;
         this.onHoldAndReleaseListener = builder.onHoldAndReleaseListener;
+        this.cancelIfMove = builder.cancelIfMove;
         this.gestureListener = new GestureListener();
         this.gestureDetector = new GestureDetector(builder.activity, this.gestureListener);
         initialiseGestureListeners();
@@ -185,6 +186,8 @@ public class PeekAndPop {
         view.setOnTouchListener(new PeekAndPopOnTouchListener(position));
     }
 
+    boolean cancelIfMove;
+
     /**
      * Check if user has moved or lifted their finger.
      * <p/>
@@ -198,7 +201,7 @@ public class PeekAndPop {
     protected void handleTouch(@NonNull View view, @NonNull MotionEvent event, int position) {
         if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
             pop(view, position);
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE && cancelIfMove) {
             downX = (int) event.getRawX();
             downY = (int) event.getRawY();
 
@@ -552,6 +555,7 @@ public class PeekAndPop {
         protected boolean animateFling = true;
         protected boolean allowUpwardsFling = true;
         protected boolean allowDownwardsFling = true;
+        protected boolean cancelIfMove = false;
 
         public Builder(@NonNull Activity activity) {
             this.activity = activity;
@@ -590,6 +594,11 @@ public class PeekAndPop {
          */
         public Builder onFlingToActionListener(@NonNull OnFlingToActionListener onFlingToActionListener) {
             this.onFlingToActionListener = onFlingToActionListener;
+            return this;
+        }
+
+        public Builder cancelIfMove(Boolean b){
+            this.cancelIfMove = b;
             return this;
         }
 
